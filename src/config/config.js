@@ -15,7 +15,7 @@ const config = convict({
             default: false
         }
     },
-    sever: {
+    server: {
         port: {
             doc: 'The port on which the server will listen.',
             format: 'nat',
