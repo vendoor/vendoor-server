@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/vendoor/vendoor-server/issues"
   },
-  "homepage": "https://github.com/vendoor/vendoor-server#readme"
+  "homepage": "https://github.com/vendoor/vendoor-server#readme",
+  "dependencies": {
+    "convict": "^5.2.0",
+    "fastify": "^2.13.0",
+    "mongodb": "^3.5.5",
+    "pino": "^6.0.0",
+    "pino-pretty": "^3.6.1"
+  }
 }
