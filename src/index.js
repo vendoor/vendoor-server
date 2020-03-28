@@ -1,8 +1,8 @@
 const FastifyFactory = require('fastify');
 
 const config = require('./config/config').get('server');
-const database = require('./database/database');
 const log = require('./util/log');
+const shutdown = require('./shutdown/shutdown');
 
 
 const pluginPaths = [
@@ -21,21 +21,16 @@ pluginPaths.forEach(path => {
     fastify.register(plugin);
 });
 
-fastify.listen(config.port, function onListening(err) {
+fastify.listen(config.port, async function onListening(err) {
     if (err) {
         log.error(err)
 
-        process.exit(1)
+        await shutdown.requestShutdown('Failed to initialize the server.', 1);
     }
+
+    shutdown.registerHook(async () => await fastify.close());
 });
 
 process.on('SIGTERM', async function sigtermListener() {
-    log.info('Shutting down.');
-
-    await fastify.close();
-    await database.close();
-
-    log.info('kkthxbai');
-
-    process.exit(0);
+    await shutdown.requestShutdown('SIGTERM received', 0);
 });
