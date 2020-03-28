@@ -35,6 +35,12 @@ const config = convict({
             format: String,
             default: 'vendoor',
             env: 'VENDOOR_DATABASE_NAME'
+        },
+        requiredVersion: {
+            doc: 'The required migration version of the database.',
+            format: String,
+            default: '1.0.0',
+            env: 'VENDOOR_DATABASE_REQUIRED_VERSION'
         }
     }
 });
