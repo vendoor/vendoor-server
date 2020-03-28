@@ -18,6 +18,8 @@ jobs:
       with:
         node-version: '12.x'
     - run: npm ci
+      env:
+        NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: npm test
       env:
         CI: true
