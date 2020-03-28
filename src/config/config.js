@@ -22,6 +22,20 @@ const config = convict({
             default: 3000,
             env: 'PORT'
         }
+    },
+    database: {
+        connectionString: {
+            doc: 'Connection string to the database.',
+            format: String,
+            default: 'mongodb://localhost:27017',
+            env: 'VENDOOR_DATABASE_CONNECTION_STRING'
+        },
+        name: {
+            doc: 'The name of the database.',
+            format: String,
+            default: 'vendoor',
+            env: 'VENDOOR_DATABASE_NAME'
+        }
     }
 });
 
