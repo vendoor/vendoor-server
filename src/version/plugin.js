@@ -1,5 +1,5 @@
 const routePaths = [
-    
+    './web/getVersion.js'
 ];
 
 async function versionPlugin(fastify) {
