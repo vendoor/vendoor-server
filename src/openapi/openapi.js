@@ -4,15 +4,17 @@ const config = require('../config/config');
 const log = require('../util/log');
 
 
+const PREFIX = '/documentation';
+
 function attach(fastify) {
     if (config.get('env') != 'development') {
         return
     }
 
-    log.info('OpenAPI docs will be served.');
+    log.info(`OpenAPI docs will be served at ${PREFIX}`);
 
     fastify.register(oas, {
-        routePrefix: '/documentation',
+        routePrefix: PREFIX,
         swagger: {
             info: {
                 title: 'Vendoor API',
