@@ -7,7 +7,8 @@ const shutdown = require('./shutdown/shutdown');
 
 const pluginPaths = [
     './database/plugin.js',
-    './version/plugin.js'
+    './version/plugin.js',
+    './healthcheck/plugin.js',
 ];
 
 const fastify = FastifyFactory({
