@@ -42,6 +42,28 @@ const config = convict({
             default: '1.0.0',
             env: 'VENDOOR_DATABASE_REQUIRED_VERSION'
         }
+    },
+    version: {
+        branch: {
+            doc: 'The git branch of the current version.',
+            format: String,
+            default: 'unknown'
+        },
+        hash: {
+            doc: 'The git commit hash of the current version.',
+            format: String,
+            default: 'unknown'
+        },
+        semver: {
+            doc: 'The actual semver version of the current version.',
+            format: String,
+            default: 'unknown'
+        },
+        pretty: {
+            doc: 'Preformatted string version of the version data.',
+            format: String,
+            default: 'unknown-unknown-unknown'
+        }
     }
 });
 
@@ -49,5 +71,6 @@ const env = config.get('env');
 config.loadFile(`${__dirname}/../../config/${env}.json`);
 
 config.validate({ allowed: 'strict' });
+
 
 module.exports = config;
