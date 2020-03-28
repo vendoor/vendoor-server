@@ -1,3 +1,6 @@
+# Version configuration
+config/version.json
+
 # Logs
 logs
 *.log
