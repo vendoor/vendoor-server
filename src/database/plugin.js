@@ -6,7 +6,7 @@ const shutdown = require('../shutdown/shutdown');
 async function databasePlugin() {
     await database.open();
 
-    shutdown.registerHook(async () => await database.close());
+    shutdown.registerHook('Close database.' , async () => await database.close());
 
     await migration.checkDatabaseVersion();
 };

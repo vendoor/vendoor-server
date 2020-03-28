@@ -28,7 +28,7 @@ fastify.listen(config.port, async function onListening(err) {
         await shutdown.requestShutdown('Failed to initialize the server.', 1);
     }
 
-    shutdown.registerHook(async () => await fastify.close());
+    shutdown.registerHook('Close fastify.', async () => await fastify.close());
 });
 
 process.on('SIGTERM', async function sigtermListener() {
