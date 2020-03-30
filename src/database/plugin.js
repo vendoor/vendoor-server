@@ -1,14 +1,13 @@
-const database = require('./database');
-const migration = require('./migration/migration');
-const shutdown = require('../shutdown/shutdown');
+const database = require('./database')
+const migration = require('./migration/migration')
+const shutdown = require('../shutdown/shutdown')
 
+async function databasePlugin () {
+  await database.open()
 
-async function databasePlugin() {
-    await database.open();
+  shutdown.registerHook('Close database.', async () => database.close())
 
-    shutdown.registerHook('Close database.' , async () => await database.close());
-
-    await migration.checkDatabaseVersion();
+  await migration.checkDatabaseVersion()
 };
 
-module.exports = databasePlugin;
+module.exports = databasePlugin

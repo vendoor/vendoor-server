@@ -5,8 +5,16 @@
   "main": "src/index.js",
   "scripts": {
     "serve": "node src/index.js",
-    "test": "echo No test will fail, if there are no tests... *points to the head",
-    "version": "npx -q @vendoor/what-version -f npm.version git.branch git.hash > config/version.json"
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "test": "npm run lint",
+    "version": "npx -q @vendoor/what-version -f npm.version git.branch git.hash > config/version.json",
+    "generate:branch": "node ./scripts/generate-branch-name.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test && node ./scripts/check-branch-name.js"
+    }
   },
   "repository": {
     "type": "git",
@@ -25,6 +33,11 @@
     "mongodb": "3.5.5",
     "pino": "6.0.0",
     "pino-pretty": "3.6.1"
+  },
+  "devDependencies": {
+    "got": "10.7.0",
+    "husky": "4.2.3",
+    "standard": "14.3.3"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"

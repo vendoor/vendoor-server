@@ -1,33 +1,32 @@
-const mongodb = require('mongodb');
+const mongodb = require('mongodb')
 
-const config = require('../config/config').get('database');
-const log = require('../util/log');
+const config = require('../config/config').get('database')
+const log = require('../util/log')
 
+let client
+let database
 
-let client;
-let database;
+async function open () {
+  log.info('Opening and loading database.')
 
-async function open() {
-    log.info('Opening and loading database.');
+  client = new mongodb.MongoClient(config.connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
 
-    client = new mongodb.MongoClient(config.connectionString, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
+  await client.connect()
 
-    await client.connect();
-
-    database = client.db(config.name);
+  database = client.db(config.name)
 };
 
-async function close() {
-    log.info('Closing database');
+async function close () {
+  log.info('Closing database')
 
-    await client.close();
+  await client.close()
 };
 
 module.exports = {
-    open,
-    close,
-    instance: () => database
-};
+  open,
+  close,
+  instance: () => database
+}
