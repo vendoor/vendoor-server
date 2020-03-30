@@ -7,22 +7,24 @@ const orderedComponents = []
 const products = {}
 
 function registerComponent (component) {
-  log.info(`Registering component "${component.title}"`)
+  log.info(`Registering component "${component.name}"`)
 
   components[component.name] = component
 }
 
 async function initialize () {
-  log.info('Starting application')
+  log.info('Initializing application')
 
   const orderedComponents = dependencyGraph.resolve(components)
 
   log.debug(`Component initialization order is: ${orderedComponents.map(c => c.name).join(', ')}`)
 
   for (const component of orderedComponents) {
-    const result = await component.initialize(products)
+    if (component.initialize) {
+      const result = await component.initialize(products)
 
-    products[component.name] = result
+      products[component.name] = result
+    }
   }
 }
 
@@ -34,9 +36,11 @@ async function teardown () {
   log.debug(`Component teardown order is: ${reverseOrderedComponents.map(c => c.name).join(', ')}`)
 
   for (const component of reverseOrderedComponents) {
-    await component.teardown(products)
+    if (component.teardown) {
+      await component.teardown(products)
 
-    delete products[component.name]
+      delete products[component.name]
+    }
   }
 }
 
