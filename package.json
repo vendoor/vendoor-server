@@ -5,7 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "serve": "node src/index.js",
-    "test": "echo No test will fail, if there are no tests... *points to the head",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "test": "npm run lint",
     "version": "npx -q @vendoor/what-version -f npm.version git.branch git.hash > config/version.json"
   },
   "repository": {
