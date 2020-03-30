@@ -4,6 +4,7 @@ const dependencyGraph = require('./dependency-graph')
 
 const components = {}
 const orderedComponents = []
+const initializedComponents = []
 const products = {}
 
 function registerComponent (component) {
@@ -21,14 +22,23 @@ async function initialize () {
 
   for (const component of orderedComponents) {
     if (component.initialize) {
-      const result = await component.initialize(products)
+      try {
+        const result = await component.initialize(products)
 
-      products[component.name] = result
+        products[component.name] = result
+
+        initializedComponents.push(component)
+      } catch (err) {
+        log.fatal(`Failed to setup component "${component.name}"`)
+        console.log(err)
+
+        await teardown(1)
+      }
     }
   }
 }
 
-async function teardown () {
+async function teardown (status = 0) {
   log.info('Shutting down application')
 
   const reverseOrderedComponents = [].concat(orderedComponents).reverse()
@@ -37,11 +47,22 @@ async function teardown () {
 
   for (const component of reverseOrderedComponents) {
     if (component.teardown) {
-      await component.teardown(products)
+      try {
+        await component.teardown(products, status)
+      } catch (e) {
+        log.error(`Failed to teadown component "${component.name}"`)
+      }
 
       delete products[component.name]
     }
   }
+
+  log.info('All teardown hooks executed, exiting.')
+  log.info('kkthxbai')
+
+  log.flushSync()
+
+  process.exit(status)
 }
 
 function getComponentProduct (name) {
