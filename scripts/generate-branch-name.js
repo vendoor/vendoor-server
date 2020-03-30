@@ -2,6 +2,9 @@ const { execSync } = require('child_process')
 
 const branch = require('./lib/branch');
 
+const OWNER = 'vendoor'
+const REPOSITORY = 'vendoor-server'
+
 (async function main() {
     let issueNumber
     try {
@@ -11,7 +14,7 @@ const branch = require('./lib/branch');
         process.exit(1)
     }
 
-    const branchName = await branch.branchNameForIssue('vendoor', 'vendoor-server', issueNumber)
+    const branchName = await branch.branchNameForIssue(OWNER, REPOSITORY, issueNumber)
 
     execSync(`git checkout -b ${branchName}`)
 })()
