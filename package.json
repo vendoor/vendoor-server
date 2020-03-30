@@ -13,7 +13,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test && node ./sripts/check-branch-name.js"
+      "pre-push": "npm test && node ./scripts/check-branch-name.js"
     }
   },
   "repository": {
