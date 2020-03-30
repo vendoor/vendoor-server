@@ -18,7 +18,7 @@ process.on('SIGTERM', async function sigtermListener () {
 });
 
 (async function main () {
-  await application.initialize()
+  await application.setup()
 
   const fastify = application.getComponentProduct('fastify')
 
@@ -26,7 +26,7 @@ process.on('SIGTERM', async function sigtermListener () {
     if (err) {
       log.error(err)
 
-      await application.teardown('Failed to initialize the server.', 1)
+      await application.teardown('Failed to start the server.', 1)
     }
   })
 })()

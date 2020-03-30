@@ -10,7 +10,7 @@ module.exports = {
   name: 'version',
   dependencies: ['fastify'],
 
-  async initialize ({ fastify }) {
+  async setup ({ fastify }) {
     versionConfig.configureVersion(config)
 
     log.info(`Deployed application version is ${config.get('version.pretty')}`)

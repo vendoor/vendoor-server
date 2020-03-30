@@ -6,7 +6,7 @@ module.exports = {
   name: 'healthcheck',
   dependencies: ['fastify'],
 
-  async initialize ({ fastify }) {
+  async setup ({ fastify }) {
     routePaths
       .map(require)
       .forEach(route => fastify.route(route))

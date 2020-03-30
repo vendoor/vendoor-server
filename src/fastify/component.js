@@ -7,7 +7,7 @@ module.exports = {
   name: 'fastify',
   dependencies: ['database'],
 
-  async initialize () {
+  async setup () {
     fastify = FastifyFactory({
       logger: log
     })

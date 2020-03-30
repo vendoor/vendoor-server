@@ -5,7 +5,7 @@ module.exports = {
   name: 'database',
   dependencies: [],
 
-  async initialize () {
+  async setup () {
     await database.open()
 
     await migration.checkDatabaseVersion()

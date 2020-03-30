@@ -13,17 +13,17 @@ function registerComponent (component) {
   components[component.name] = component
 }
 
-async function initialize () {
-  log.info('Initializing application')
+async function setup () {
+  log.info('Setting up the application')
 
   const orderedComponents = dependencyGraph.resolve(components)
 
-  log.debug(`Component initialization order is: ${orderedComponents.map(c => c.name).join(', ')}`)
+  log.debug(`Component setup order is: ${orderedComponents.map(c => c.name).join(', ')}`)
 
   for (const component of orderedComponents) {
-    if (component.initialize) {
+    if (component.setup) {
       try {
-        const result = await component.initialize(products)
+        const result = await component.setup(products)
 
         products[component.name] = result
 
@@ -71,7 +71,7 @@ function getComponentProduct (name) {
 
 module.exports = {
   registerComponent,
-  initialize,
+  setup,
   teardown,
   getComponentProduct
 }
