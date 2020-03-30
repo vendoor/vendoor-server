@@ -10,6 +10,11 @@
     "test": "npm run lint",
     "version": "npx -q @vendoor/what-version -f npm.version git.branch git.hash > config/version.json"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test && node ./hooks/check-branch-name.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vendoor/vendoor-server.git"
