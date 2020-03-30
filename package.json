@@ -8,7 +8,8 @@
     "lint": "standard",
     "lint:fix": "standard --fix",
     "test": "npm run lint",
-    "version": "npx -q @vendoor/what-version -f npm.version git.branch git.hash > config/version.json"
+    "version": "npx -q @vendoor/what-version -f npm.version git.branch git.hash > config/version.json",
+    "generate:branch": "node ./scripts/generate-branch-name.js"
   },
   "husky": {
     "hooks": {

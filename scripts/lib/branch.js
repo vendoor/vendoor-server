@@ -49,16 +49,6 @@ function splitBranchName (branchName) {
   }
 }
 
-async function expectedBranchName (owner, repository, actualBranchName) {
-  const split = splitBranchName(actualBranchName)
-
-  if (!split) {
-    return null
-  }
-
-  return branchNameForIssue(owner, repository, split.number)
-}
-
 function guardInvalidBranchName (currentBranch) {
   console.log(`
 The name of the current branch "${currentBranch}" does not match the branch naming policy.
@@ -110,7 +100,8 @@ async function checkBranchName (owner, repository, actualBranchName) {
     guardNoIssueForBranch(owner, repository, actualBranchName)
   }
 
-  const expected = await expectedBranchName(owner, repository, actualBranchName)
+  const issueNumber = splitBranchName(actualBranchName).number
+  const expected = await branchNameForIssue(owner, repository, issueNumber)
   if (expected !== actualBranchName) {
     guardBranchNameDoesNotMatchExpected(expected, actualBranchName)
   }
@@ -120,6 +111,5 @@ module.exports = {
   branchNameForIssue,
   hasIssueForBranch,
   splitBranchName,
-  expectedBranchName,
   checkBranchName
 }
