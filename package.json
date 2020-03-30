@@ -26,6 +26,9 @@
     "pino": "6.0.0",
     "pino-pretty": "3.6.1"
   },
+  "devDependencies": {
+    "standard": "14.3.3"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   }
