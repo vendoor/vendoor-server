@@ -3,10 +3,7 @@ const log = require('./util/log')
 
 const componentPaths = [
   './communication/component.js',
-  './database/component.js',
-  './fastify/component.js',
-  './healthcheck/component.js',
-  './version/component.js'
+  './database/component.js'
 ]
 
 componentPaths

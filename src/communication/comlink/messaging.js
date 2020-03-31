@@ -1,6 +1,7 @@
 const WebSocket = require('ws')
 
 const authentication = require('../../security/authentication/authentication')
+const session = require('../../session/session')
 
 let _comlink
 let ws
@@ -8,12 +9,12 @@ let ws
 let messageHandler
 
 async function clientFromRequest (message) {
-  const data = await authentication.extractDataFromToken(message._token)
+  const sessionData = await session.getSessionForToken(message._token)
 
   return {
     identifier: message._clientID,
     token: message._token,
-    data
+    session: sessionData
   }
 }
 

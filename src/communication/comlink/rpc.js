@@ -1,6 +1,7 @@
 const WebSocket = require('ws')
 
 const authentication = require('../../security/authentication/authentication')
+const session = require('../../session/session')
 const log = require('../../util/log')
 
 let ws
@@ -34,12 +35,12 @@ function tokenValidator (token) {
 }
 
 async function clientFromRequest (message) {
-  const data = await authentication.extractDataFromToken(message._token)
+  const sessionData = await session.getSessionForToken(message._token)
 
   return {
     identifier: message._clientID,
     token: message._token,
-    data
+    session: sessionData
   }
 }
 

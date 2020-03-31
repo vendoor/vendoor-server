@@ -24,7 +24,7 @@ module.exports = {
     )
 
     server.on('upgrade', function upgrade (request, socket, head) {
-      const path = url.parse(request.url).pathname
+      const path = new url.URL(request.url).pathname
 
       const channel = wsChannels.find(c => c.path === path)
 
