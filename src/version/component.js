@@ -8,15 +8,15 @@ const routePaths = [
 
 module.exports = {
   name: 'version',
-  dependencies: ['fastify'],
+  dependencies: ['communication'],
 
-  async setup ({ fastify }) {
+  async setup ({ communication }) {
     versionConfig.configureVersion(config)
 
     log.info(`Deployed application version is ${config.get('version.pretty')}`)
 
     routePaths
       .map(require)
-      .forEach(route => fastify.route(route))
+      .forEach(route => communication.fastify.route(route))
   }
 }

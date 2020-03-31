@@ -4,11 +4,11 @@ const routePaths = [
 
 module.exports = {
   name: 'healthcheck',
-  dependencies: ['fastify'],
+  dependencies: ['communication'],
 
-  async setup ({ fastify }) {
+  async setup ({ communication }) {
     routePaths
       .map(require)
-      .forEach(route => fastify.route(route))
+      .forEach(route => communication.fastify.route(route))
   }
 }
