@@ -23,8 +23,10 @@ process.on('SIGTERM', async function sigtermListener () {
 
   try {
     await communication.listen()
+
+    log.info('Up and running.')
   } catch (err) {
-    log.error(err)
+    log.fatal(err)
 
     await application.teardown(1)
   }

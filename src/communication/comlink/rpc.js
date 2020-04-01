@@ -9,7 +9,7 @@ let ws
 const rpcRouteMapping = {}
 
 function registerRpcHandler (path, func) {
-  log.info(`Registering RPC handler for path "${path}"`)
+  log.info('Registering RPC handler for path "%s"', path)
 
   rpcRouteMapping[path] = func
 }
@@ -22,10 +22,12 @@ async function routeRpcCall (path, data, client) {
     //   - We log, so that it's apparent in the server logs that someone is trying to
     //     make this call
     //   - We throw to inform the client that an error happened (exceptions are caught by comlink).
-    log.error(`No RPC function found for path "${path}"`)
+    log.error('No RPC function found for path "%s"', path)
 
     throw new Error('Handler not found for call.')
   }
+
+  log.debug('Successfully routed RPC call for path "%s"', path)
 
   return func(...data, client)
 }
@@ -46,6 +48,8 @@ async function clientFromRequest (message) {
 
 async function onRpcRequest (request) {
   const client = await clientFromRequest(request)
+
+  log.debug('Extracted client from RPC call %o', client)
 
   return routeRpcCall(request.path, request.data, client)
 }

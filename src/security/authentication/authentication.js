@@ -1,9 +1,13 @@
 async function validateToken (token) {
-  throw new Error('@viktorsimko Please implement me.')
+  console.trace('@viktorsimko Please implement me.')
+
+  return true
 }
 
 async function extractDataFromToken (token) {
-  throw new Error('@viktorsimko Please implement me.')
+  console.trace('@viktorsimko Please implement me.')
+
+  return {}
 }
 
 module.exports = {

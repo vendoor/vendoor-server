@@ -2,6 +2,7 @@ const WebSocket = require('ws')
 
 const authentication = require('../../security/authentication/authentication')
 const session = require('../../session/session')
+const log = require('../../util/log')
 
 let _comlink
 let ws
@@ -44,6 +45,8 @@ module.exports = {
       },
       async onRequest (request) {
         const client = await clientFromRequest(request)
+
+        log.debug('Extracted client from Messaging request %o', client)
 
         return messageHandler(request.sendTo, request.message, client)
       }
