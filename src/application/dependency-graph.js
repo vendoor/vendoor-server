@@ -61,7 +61,7 @@ function isUnresolved (orderedComponents, componentName) {
   return !orderedComponents.some(c => c.name === componentName)
 }
 
-function alreadyResolved(orderedComponents, componentName) {
+function alreadyResolved (orderedComponents, componentName) {
   return !isUnresolved(orderedComponents, componentName)
 }
 
