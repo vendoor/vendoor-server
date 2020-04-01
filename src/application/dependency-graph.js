@@ -2,6 +2,10 @@ function resolve (componentRegistry) {
   const orderedComponents = []
 
   for (const componentName of Object.keys(componentRegistry)) {
+    if (alreadyResolved(orderedComponents, componentName)) {
+      continue
+    }
+
     innerResolve([componentName], componentRegistry[componentName].dependencies)
 
     pushComponent(orderedComponents, componentRegistry[componentName])
@@ -20,7 +24,10 @@ function resolve (componentRegistry) {
       if (Array.isArray(dependency.dependencies)) {
         resolutionStack.push(dependencyName)
 
-        innerResolve(resolutionStack, dependency.dependencies)
+        const unresolvedDependencies = dependency.dependencies
+          .filter(name => isUnresolved(orderedComponents, name))
+
+        innerResolve(resolutionStack, unresolvedDependencies)
       }
 
       pushComponent(orderedComponents, dependency)
@@ -45,9 +52,17 @@ function guardUnknownDependency (resolutionStack, dependencyName, dependency) {
 }
 
 function pushComponent (orderedComponents, component) {
-  if (!orderedComponents.find(c => c.name === component.name)) {
+  if (isUnresolved(orderedComponents, component.name)) {
     orderedComponents.push(component)
   }
+}
+
+function isUnresolved (orderedComponents, componentName) {
+  return !orderedComponents.some(c => c.name === componentName)
+}
+
+function alreadyResolved(orderedComponents, componentName) {
+  return !isUnresolved(orderedComponents, componentName)
 }
 
 module.exports = {
