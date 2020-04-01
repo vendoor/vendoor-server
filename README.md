@@ -13,3 +13,7 @@ Then, run the server using the following command:
 ~~~~
 npm run serve
 ~~~~
+
+## Contributing
+
+Please refer to the [Contribution Guidelines](CONTRIBUTING.md).

@@ -15,6 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Set version
+      run: npm run version
+
     - name: Build the Docker image
       run: docker build . --file ./docker/vendoor-server.dockerfile --tag image
       env:

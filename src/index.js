@@ -1,39 +1,33 @@
-const FastifyFactory = require('fastify');
+const application = require('./application/application')
+const log = require('./util/log')
 
-const config = require('./config/config').get('server');
-const log = require('./util/log');
+const componentPaths = [
+  './communication/component.js',
+  './database/component.js',
+  './healthcheck/component.js',
+  './version/component.js'
+]
 
+componentPaths
+  .map(require)
+  .forEach(component => application.registerComponent(component))
 
-const pluginPaths = [
-
-];
-
-const fastify = FastifyFactory({
-    logger: log
+process.on('SIGTERM', async function sigtermListener () {
+  await application.teardown()
 });
 
-pluginPaths.forEach(path => {
-    log.info("Registering plugin: %s", path);
+(async function main () {
+  await application.setup()
 
-    const plugin = require(path);
+  const communication = application.getComponentProduct('communication')
 
-    fastify.register(plugin);
-});
+  try {
+    await communication.listen()
 
-fastify.listen(config.port, function onListening(err) {
-    if (err) {
-        log.error(err)
+    log.info('Up and running.')
+  } catch (err) {
+    log.fatal(err)
 
-        process.exit(1)
-    }
-});
-
-process.on('SIGTERM', async function sigtermListener() {
-    log.info('Shutting down.');
-
-    await fastify.close();
-
-    log.info('kkthxbai');
-
-    process.exit(0);
-});
+    await application.teardown(1)
+  }
+})()

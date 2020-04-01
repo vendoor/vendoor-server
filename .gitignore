@@ -1,3 +1,6 @@
+# Version configuration
+config/version.json
+
 # Logs
 logs
 *.log
@@ -102,3 +105,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Scratch test scripts
+test/scripts/*
+!test/scripts/.gitkeep
