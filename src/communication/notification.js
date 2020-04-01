@@ -14,8 +14,5 @@ module.exports = {
     const clientID = impl.instance().getClientIDByToken(token)
 
     await impl.instance().sendMessageToClient(clientID, event, message)
-  },
-  registerRpcHandler (path, func) {
-    impl.instance().registerRpcHandler(path, func)
   }
 }

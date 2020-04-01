@@ -8,7 +8,7 @@ module.exports = {
 
     return impl.instance().isTokenActive(token)
   },
-  async notifyUser (userIdentifier, event, message) {
+  async messageUser (userIdentifier, event, message) {
     const token = session.getTokenForUserSession(userIdentifier)
 
     const clientID = impl.instance().getClientIDByToken(token)
