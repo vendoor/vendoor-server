@@ -6,6 +6,7 @@
     * [JavaScript Code](#javascript-code)
     * [Git Commit Messages](#git-commit-messages)
     * [Branch Naming Policy](#branch-naming-policy)
+  * [Database Setup](#database-setup)
   * [Developer Guides](#developer-guides)
 
 ## Style Guides
@@ -47,12 +48,18 @@ You can use the `npm run generate:branch` command automatically generate a new b
   * `npm run generate:branch -- 17 2`
     * Results in: `#17-some-issue-2`
 
+## Database Setup
+
+
+
 ## Developer Guides
 
 The following developer guides are available:
 
   * [Chat Developer Guide](./docs/developer-guides/chat.md)
     * Real-time messaging between users.
+  * [Comlink Developer Guide](./docs/developer-guides/comlink.md)
+    * How Comlink is integrated into Vendoor Server and how to test Comlink stuff.
   * [Component Developer Guide](./docs/developer-guides/component.md)
     * Writing application startup and teardown components.
   * [HTTP Developer Guide](./docs/developer-guides/http.md)
