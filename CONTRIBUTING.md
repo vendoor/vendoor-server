@@ -7,6 +7,7 @@
     * [Git Commit Messages](#git-commit-messages)
     * [Branch Naming Policy](#branch-naming-policy)
   * [Database Setup](#database-setup)
+  * [Development Environment](#development-environment)
   * [Developer Guides](#developer-guides)
 
 ## Style Guides
@@ -104,6 +105,10 @@ java -jar ./dragonball/dragonball-cli/target/dragonball-cli-1.0.0.jar setup \
 ~~~~
 
 **Note:** Actual JAR versions may differ.
+
+## Development Environment
+
+Vendoor Server starts up in development mode if the the `NODE_ENV` environment variable is set to `development`.
 
 ## Developer Guides
 
