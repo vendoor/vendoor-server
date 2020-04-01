@@ -50,7 +50,60 @@ You can use the `npm run generate:branch` command automatically generate a new b
 
 ## Database Setup
 
+Vendoor Server uses [vendoor/dragonball](https://github.com/vendoor/dragonball) to manage database migrations. When starting up, the application checks whether the database had been migrated to the required version. If not, then it refuses to start.
 
+### Easy Solution
+
+Create a collection called `Migration` in your database. Insert a new document with a single String-valued field:
+
+~~~~JSON
+{
+  "version": "required version of vendoor-server, example: 1.0.0"
+}
+~~~~
+
+### Proper Solution
+
+Clone [vendoor/dragonball](https://github.com/vendoor/dragonball) and create and executable JAR using maven (or the maven wrapper in the repository):
+
+~~~~
+git clone https://github.com/vendoor/dragonball
+cd dragonball
+./mvnw clean package
+cd ..
+~~~~
+
+Afterwards, clone the [Vendoor database schema](https://github.com/vendoor/schema) and kick in maven again:
+
+~~~~
+git clone https://github.com/vendoor/schema
+cd schema
+./mvnw clean package
+cd ..
+~~~~
+
+Before actually setting up (or migrating the database), make sure to edit `dragonball/config/vendoor.conf`! In most cases the settings are just fine, however, you should at least check them.
+
+Then, setup the database:
+
+~~~~
+java -jar ./dragonball/dragonball-cli/target/dragonball-cli-1.0.0.jar setup \
+  --config-file=./dragonball/config/vendoor.conf \
+  --schema-jar=./schema/target/schema-1.0.0.jar \
+  --schema-class="me.vendoor.schema.Schema"
+~~~~
+
+Or if you want to do a migration on an already set up database: 
+
+~~~~
+java -jar ./dragonball/dragonball-cli/target/dragonball-cli-1.0.0.jar setup \
+  --config-file=./dragonball/config/vendoor.conf \
+  --schema-jar=./schema/target/schema-1.0.0.jar \
+  --schema-class="me.vendoor.schema.Schema" \
+  --target-version="1.1.0"
+~~~~
+
+**Note:** Actual JAR versions may differ.
 
 ## Developer Guides
 
