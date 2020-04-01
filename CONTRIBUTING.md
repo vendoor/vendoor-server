@@ -6,6 +6,7 @@
     * [JavaScript Code](#javascript-code)
     * [Git Commit Messages](#git-commit-messages)
     * [Branch Naming Policy](#branch-naming-policy)
+  * [Developer Guides](#developer-guides)
 
 ## Style Guides
 
@@ -45,3 +46,10 @@ You can use the `npm run generate:branch` command automatically generate a new b
     * Results in: `#17-some-issue`
   * `npm run generate:branch -- 17 2`
     * Results in: `#17-some-issue-2`
+
+## Developer Guides
+
+The following developer guides are available:
+
+  * [Component Developer Guide](./docs/developer-guides/component.md)
+    * Writing application startup and teardown components.
