@@ -76,6 +76,8 @@ application.registerComponent(exampleComponent)
 
 Registration is synchronous and does not trigger dependency resolution. Hence, you can register your components in any order.
 
+If you want to register a new component, simply add its path to the appropriate array in [index.js](../../src/index.js).
+
 ## Setup and Teardown
 
 The actual setup process is triggered by calling
