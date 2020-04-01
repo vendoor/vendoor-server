@@ -51,7 +51,6 @@ module.exports = {
       }
     })
 
-
     comlink.registerHeader({
       name: 'jwtToken',
       type: 'automatic',
@@ -64,14 +63,14 @@ module.exports = {
       type: 'ws',
       name: 'Communicator',
       ssl: false,
-      uri: `localhost:3000/Communicator`,
+      uri: 'localhost:3000/Communicator',
       default: true,
       auth: true,
       authHeader: 'jwtToken',
       rpc: {
         retryInterval: 300,
         maxRetries: 40,
-        dialects: ['call'],
+        dialects: ['call']
       }
     })
 
@@ -79,14 +78,14 @@ module.exports = {
       type: 'ws',
       name: 'Notification',
       ssl: false,
-      uri: `localhost:3000/Notification`,
+      uri: 'localhost:3000/Notification',
       default: false,
       auth: true,
       authHeader: 'jwtToken',
       rpc: {
         retryInterval: 300,
         maxRetries: 40,
-        dialects: [],
+        dialects: []
       }
     })
 
@@ -94,18 +93,17 @@ module.exports = {
       type: 'ws',
       name: 'Messaging',
       ssl: false,
-      uri: `localhost:3000/Messaging`,
+      uri: 'localhost:3000/Messaging',
       default: false,
       auth: true,
       authHeader: 'jwtToken',
       rpc: {
         retryInterval: 300,
         maxRetries: 40,
-        dialects: ['message'],
+        dialects: ['message']
       }
     })
 
     return comlink
-
   }
 }
