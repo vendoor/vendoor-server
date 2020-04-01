@@ -53,3 +53,5 @@ The following developer guides are available:
 
   * [Component Developer Guide](./docs/developer-guides/component.md)
     * Writing application startup and teardown components.
+  * [HTTP Developer Guide](./docs/developer-guides/http.md)
+    * Accessing the underlying HTTP server of Vendoor Server.
