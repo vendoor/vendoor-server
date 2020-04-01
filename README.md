@@ -16,4 +16,4 @@ npm run serve
 
 ## Contributing
 
-Please refer to the [Contribution Guidelines](contributing.md).
+Please refer to the [Contribution Guidelines](CONTRIBUTING.md).

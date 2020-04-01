@@ -1,37 +1,33 @@
-const FastifyFactory = require('fastify')
-
-const config = require('./config/config').get('server')
+const application = require('./application/application')
 const log = require('./util/log')
-const shutdown = require('./shutdown/shutdown')
 
-const pluginPaths = [
-  './database/plugin.js',
-  './version/plugin.js',
-  './healthcheck/plugin.js'
+const componentPaths = [
+  './communication/component.js',
+  './database/component.js',
+  './healthcheck/component.js',
+  './version/component.js'
 ]
 
-const fastify = FastifyFactory({
-  logger: log
-})
-
-pluginPaths.forEach(path => {
-  log.info('Registering plugin: %s', path)
-
-  const plugin = require(path)
-
-  fastify.register(plugin)
-})
-
-fastify.listen(config.port, async function onListening (err) {
-  if (err) {
-    log.error(err)
-
-    await shutdown.requestShutdown('Failed to initialize the server.', 1)
-  }
-
-  shutdown.registerHook('Close fastify.', async () => fastify.close())
-})
+componentPaths
+  .map(require)
+  .forEach(component => application.registerComponent(component))
 
 process.on('SIGTERM', async function sigtermListener () {
-  await shutdown.requestShutdown('SIGTERM received', 0)
-})
+  await application.teardown()
+});
+
+(async function main () {
+  await application.setup()
+
+  const communication = application.getComponentProduct('communication')
+
+  try {
+    await communication.listen()
+
+    log.info('Up and running.')
+  } catch (err) {
+    log.fatal(err)
+
+    await application.teardown(1)
+  }
+})()

@@ -9,7 +9,8 @@
     "lint:fix": "standard --fix",
     "test": "npm run lint",
     "version": "npx -q @vendoor/what-version -f npm.version git.branch git.hash > config/version.json",
-    "generate:branch": "node ./scripts/generate-branch-name.js"
+    "generate:branch": "node ./scripts/generate-branch-name.js",
+    "repl": "npx @dwmt/comlink-repl ./repl/vendoor.config.js"
   },
   "husky": {
     "hooks": {
@@ -27,13 +28,16 @@
   },
   "homepage": "https://github.com/vendoor/vendoor-server#readme",
   "dependencies": {
+    "@dwmt/comlink": "1.1.2",
     "convict": "5.2.0",
     "fastify": "2.13.0",
     "mongodb": "3.5.5",
     "pino": "6.0.0",
-    "pino-pretty": "3.6.1"
+    "pino-pretty": "3.6.1",
+    "ws": "7.2.3"
   },
   "devDependencies": {
+    "@dwmt/comlink-repl": "0.0.2",
     "got": "10.7.0",
     "husky": "4.2.3",
     "standard": "14.3.3"

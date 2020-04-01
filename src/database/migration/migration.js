@@ -1,7 +1,7 @@
 const config = require('../../config/config')
 const database = require('../database')
 const log = require('../../util/log')
-const shutdown = require('../../shutdown/shutdown')
+const application = require('../../application/application')
 
 async function retrieveActualVersion () {
   const migrationCollection = database.instance().collection('Migration')
@@ -28,7 +28,7 @@ async function checkDatabaseVersion () {
   log.info(`Actual database version is ${actualVersion}`)
 
   if (requiredVersion !== actualVersion) {
-    await shutdown.requestShutdown(`Actual database version is ${actualVersion}, expected is ${requiredVersion}`, 1)
+    await application.teardown(1)
   }
 };
 
