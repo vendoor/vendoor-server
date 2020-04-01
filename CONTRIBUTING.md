@@ -55,3 +55,5 @@ The following developer guides are available:
     * Writing application startup and teardown components.
   * [HTTP Developer Guide](./docs/developer-guides/http.md)
     * Accessing the underlying HTTP server of Vendoor Server.
+  * [RPC Developer Guide](./docs/developer-guides/rpc.md)
+    * Non-HTTP Remote Procedure Calls.
