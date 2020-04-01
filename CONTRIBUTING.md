@@ -51,6 +51,8 @@ You can use the `npm run generate:branch` command automatically generate a new b
 
 The following developer guides are available:
 
+  * [Chat Developer Guide](./docs/developer-guides/chat.md)
+    * Real-time messaging between users.
   * [Component Developer Guide](./docs/developer-guides/component.md)
     * Writing application startup and teardown components.
   * [HTTP Developer Guide](./docs/developer-guides/http.md)
