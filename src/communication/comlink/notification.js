@@ -12,7 +12,7 @@ function tokenValidator (token) {
 const CHANNEL_NAME = 'Notification'
 
 module.exports = {
-  async setup (comlink, server) {
+  async setup (comlink) {
     _comlink = comlink
 
     ws = new WebSocket.Server({

@@ -53,7 +53,7 @@ async function onRpcRequest (request) {
 const CHANNEL_NAME = 'Communicator'
 
 module.exports = {
-  async setup (comlink, server) {
+  async setup (comlink) {
     ws = new WebSocket.Server({
       noServer: true
     })

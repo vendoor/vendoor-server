@@ -24,7 +24,8 @@ module.exports = {
     )
 
     server.on('upgrade', function upgrade (request, socket, head) {
-      const path = new url.URL(request.url).pathname
+      // FIXME: Change the base value, this is only a temporary hack to use the new URL API.
+      const path = new url.URL(request.url, 'http://localhost').pathname
 
       const channel = wsChannels.find(c => c.path === path)
 

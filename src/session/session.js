@@ -1,7 +1,7 @@
 const authentication = require('../security/authentication/authentication')
 
 async function getSessionForToken (token) {
-  authentication.extractDataFromToken(token)
+  return authentication.extractDataFromToken(token)
 }
 
 function getTokenForUserSession (userIdentifier) {
