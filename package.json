@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/vendoor/vendoor-server#readme",
   "dependencies": {
-    "@dwmt/comlink": "1.1.0",
+    "@dwmt/comlink": "1.1.1",
     "convict": "5.2.0",
     "fastify": "2.13.0",
     "mongodb": "3.5.5",
