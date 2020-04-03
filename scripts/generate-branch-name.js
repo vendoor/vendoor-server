@@ -29,5 +29,5 @@ const REPOSITORY = 'vendoor-server';
 
   const branchName = await branch.branchNameForIssue(OWNER, REPOSITORY, issueNumber, index)
 
-  execSync(`git checkout -b ${branchName}`)
+  execSync(`git checkout -b "${branchName}"`)
 })()
