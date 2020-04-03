@@ -8,7 +8,7 @@
     "lint": "standard",
     "lint:fix": "standard --fix",
     "test": "npm run lint",
-    "version": "npx -q @vendoor/what-version -f npm.version git.branch git.hash > config/version.json",
+    "version": "npx @vendoor/what-version -f npm.version git.branch git.hash",
     "generate:branch": "node ./scripts/generate-branch-name.js",
     "repl": "npx @dwmt/comlink-repl ./repl/vendoor.config.js"
   },
