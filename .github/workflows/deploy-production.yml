@@ -15,6 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Package install
+      run: npm ci
+
     - name: Set version
       run: npm run version
 
