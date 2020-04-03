@@ -29,6 +29,8 @@ jobs:
 
     - name: Set version
       run: npm run version
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build the Docker image
       run: docker build . --file ./docker/vendoor-server.dockerfile --tag image
