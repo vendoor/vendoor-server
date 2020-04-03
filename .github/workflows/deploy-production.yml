@@ -17,6 +17,8 @@ jobs:
 
     - name: Package install
       run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set version
       run: npm run version
