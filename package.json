@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/vendoor/vendoor-server#readme",
   "dependencies": {
-    "@dwmt/comlink": "1.1.2",
+    "@dwmt/comlink": "1.1.3",
     "convict": "5.2.0",
     "fastify": "2.13.0",
     "mongodb": "3.5.5",
@@ -37,7 +37,7 @@
     "ws": "7.2.3"
   },
   "devDependencies": {
-    "@dwmt/comlink-repl": "0.0.2",
+    "@dwmt/comlink-repl": "0.0.4",
     "got": "10.7.0",
     "husky": "4.2.3",
     "standard": "14.3.3"
