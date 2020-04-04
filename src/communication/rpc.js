@@ -1,11 +1,11 @@
 const Ajv = require('ajv')
 const fastJson = require('fast-json-stringify')
 
+const log = require('../util/log')
+
 const ajv = Ajv({
   allErrors: true
 })
-
-const log = require('../util/log')
 
 const internalRouteMap = new Map()
 const publicRouteMap = new Map()
@@ -28,7 +28,7 @@ async function handleRpcInvocation (handler, data, client) {
   return handler.responseStringifier(response)
 }
 
-async function rpcRouter (path, data, client) {
+function routeRpcInvocation (path, data, client) {
   const handler = internalRouteMap.get(path)
 
   if (!handler) {
@@ -39,9 +39,7 @@ async function rpcRouter (path, data, client) {
 
   log.debug('Handler found for RPC invocation with path "%s"', path)
 
-  const result = await handleRpcInvocation(handler, data, client)
-
-  return result
+  return handleRpcInvocation(handler, data, client)
 }
 
 function deepCopy (obj) {
@@ -88,7 +86,7 @@ function initializeInternalHandler (handlerRegistration) {
 
 module.exports = {
   setup (impl) {
-    impl.registerRpcRouter(rpcRouter)
+    impl.registerRpcRouter(routeRpcInvocation)
   },
   /**
    * Registers a new RPC handler.
