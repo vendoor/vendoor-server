@@ -11,10 +11,19 @@ module.exports = {
 
     await comlink.setup(fastify.instance().server)
 
+    const rpc = require('./rpc')
+    rpc.setup(comlink.rpc())
+
+    const messaging = require('./messaging')
+    messaging.setup(comlink.messaging())
+    
+    const notification = require('./notification')
+    notification.setup(comlink.notification())
+
     return {
       fastify: fastify.instance(),
-      rpc: require('./rpc'),
-      messaging: require('./messaging'),
+      rpc,
+      messaging,
       listen
     }
 

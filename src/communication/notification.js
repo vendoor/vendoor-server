@@ -1,18 +1,21 @@
 const session = require('../session/session')
 
-const impl = require('./comlink/notification')
+let _impl
 
 module.exports = {
+  setup(impl) {
+    _impl = impl
+  },
   isUserOnline (userIdentifier) {
     const token = session.getTokenForUserSession(userIdentifier)
 
-    return impl.instance().isTokenActive(token)
+    return _impl.isTokenActive(token)
   },
   async notifyUser (userIdentifier, event, message) {
     const token = session.getTokenForUserSession(userIdentifier)
 
-    const clientID = impl.instance().getClientIDByToken(token)
+    const clientID = _impl.getClientIDByToken(token)
 
-    await impl.instance().sendMessageToClient(clientID, event, message)
+    await _impl.sendMessageToClient(clientID, event, message)
   }
 }

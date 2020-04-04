@@ -6,30 +6,28 @@ const log = require('../../util/log')
 
 let ws
 
-const rpcRouteMapping = {}
+let rpcRouter = null
 
-function registerRpcHandler (path, func) {
-  log.info('Registering RPC handler for path "%s"', path)
+function registerRpcRouter (routerFunc) {
+  log.info('Registering RPC router')
 
-  rpcRouteMapping[path] = func
+  rpcRouter = routerFunc
 }
 
-async function routeRpcCall (path, data, client) {
-  const func = rpcRouteMapping[path]
+function routeRpcCall (path, data, client) {
+  log.debug('Received RPC invocation on path %s', path)
 
-  if (!func) {
+  if (!rpcRouter) {
     // Log and throw is definitely an antipattern, however not in this case.
     //   - We log, so that it's apparent in the server logs that someone is trying to
     //     make this call
     //   - We throw to inform the client that an error happened (exceptions are caught by comlink).
-    log.error('No RPC function found for path "%s"', path)
+    log.error('No RPC router registered!')
 
-    throw new Error('Handler not found for call.')
+    throw new Error('No RPC router registered!')
   }
 
-  log.debug('Successfully routed RPC call for path "%s"', path)
-
-  return func(...data, client)
+  return rpcRouter(path, data, client)
 }
 
 function tokenValidator (token) {
@@ -91,9 +89,5 @@ module.exports = {
     ws.close()
   },
 
-  instance () {
-    return {
-      registerRpcHandler
-    }
-  }
+  registerRpcRouter
 }

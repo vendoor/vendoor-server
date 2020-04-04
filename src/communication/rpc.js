@@ -1,6 +1,25 @@
-const impl = require('./comlink/rpc')
+const routeMap = new Map()
+
+async function rpcRouter(path, data, client) {
+  const handler = routeMap.get(path)
+
+  if (!handler) {  
+    log.error('No RPC handler found for path "%s"', path)
+    
+    throw new Error('Handler not found for call.')
+  }
+
+  const result = await handler.handler(...data, client)
+
+  log.debug('Successfully routed RPC invocation for path "%s"', path)
+
+  return result
+}
 
 module.exports = {
+  setup(impl) {
+    impl.registerRpcRouter(rpcRouter)
+  },
   /**
    * Registers a new RPC handler.
    * @param {Object} handlerRegistration Information about the handler being registered.
@@ -18,6 +37,21 @@ module.exports = {
    * @param {string[]} [handlerRegistration.meta.tags] Arbitrary string tags.
    */
   registerRpcHandler (handlerRegistration) {
-    impl.instance().registerRpcHandler(path, handler)
+    if (routeMap.has(handlerRegistration.path)) {
+      throw new Error(`Path "${handlerRegistration.path}" is already registered by another handler.`)
+    }
+
+    routeMap.set(handlerRegistration.path, handlerRegistration)
+
+    log.info('Registered RPC handler for path "%s"', handlerRegistration.path)
+  },
+  getRpcHandlers() {
+    const result = {}
+
+    for (const handler of routeMap.values()) {
+      result[handler.path] = handler
+    }
+
+    return result
   }
 }

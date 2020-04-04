@@ -48,5 +48,15 @@ module.exports = {
     await rpc.teardown()
     await notification.teardown()
     await messaging.teardown()
+  },
+
+  rpc() {
+    return rpc
+  },
+  notification() {
+    return notification
+  },
+  messaging() {
+    return messaging
   }
 }
