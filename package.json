@@ -36,6 +36,7 @@
     "mongodb": "3.5.5",
     "pino": "6.0.0",
     "pino-pretty": "3.6.1",
+    "rfdc": "1.1.4",
     "ws": "7.2.3"
   },
   "devDependencies": {
