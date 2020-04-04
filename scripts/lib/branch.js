@@ -88,15 +88,12 @@ Open issues:
   process.exit(1)
 }
 
-function guardBranchTitleDoesNotMatchExpected (expectedBranchName, actualBranchName) {
-  const expectedTitle = splitBranchName(expectedBranchName).title
-  const actualTitle = splitBranchName(actualBranchName).title
-
+function guardBranchTitleDoesNotMatchExpected (expectedBranchTitle, actualBranchTitle) {
   console.log(`
 The title part of the current branch does not match the one generated using the title of the issue.
 
-  Actual: ${actualTitle}
-  Expected: ${expectedTitle}
+  Actual: "${actualBranchTitle}"
+  Expected: "${expectedBranchTitle}"
 `)
 
   process.exit(1)
@@ -111,10 +108,12 @@ async function checkBranchName (owner, repository, actualBranchName) {
     guardNoIssueForBranch(owner, repository, actualBranchName)
   }
 
-  const issueNumber = splitBranchName(actualBranchName).number
-  const expected = await branchNameForIssue(owner, repository, issueNumber)
-  if (expected !== actualBranchName) {
-    guardBranchTitleDoesNotMatchExpected(expected, actualBranchName)
+  const actualSplit = splitBranchName(actualBranchName)
+  const expectedBranchName = await branchNameForIssue(owner, repository, actualSplit.number)
+  const expectedSplit = splitBranchName(expectedBranchName)
+
+  if (expectedSplit.title !== actualSplit.title) {
+    guardBranchTitleDoesNotMatchExpected(expectedSplit.title, actualSplit.title)
   }
 }
 
