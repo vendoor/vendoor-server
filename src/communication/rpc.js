@@ -1,6 +1,7 @@
 const Ajv = require('ajv')
 const fastJson = require('fast-json-stringify')
 
+const copy = require('../util/copy')
 const log = require('../util/log')
 
 const ajv = Ajv({
@@ -42,15 +43,11 @@ function routeRpcInvocation (path, data, client) {
   return handleRpcInvocation(handler, data, client)
 }
 
-function deepCopy (obj) {
-  return JSON.parse(JSON.stringify(obj))
-}
-
 function makePublicHandlerRegistration (handlerRegistration) {
   return {
     path: handlerRegistration.path,
-    schema: deepCopy(handlerRegistration.schema),
-    meta: deepCopy(handlerRegistration.meta)
+    schema: copy.deep(handlerRegistration.schema),
+    meta: copy.deep(handlerRegistration.meta)
   }
 }
 
@@ -63,9 +60,7 @@ function defaultResponseStringifier (obj) {
 }
 
 function initializeInternalHandler (handlerRegistration) {
-  const internalRegistrationObject = deepCopy(handlerRegistration)
-  // Deep copy will not copy functions.
-  internalRegistrationObject.handler = handlerRegistration.handler
+  const internalRegistrationObject = copy.deep(handlerRegistration)
 
   if (handlerRegistration.schema && handlerRegistration.schema.request) {
     // The .errors property will be shared, but this will not cause problems for us.
