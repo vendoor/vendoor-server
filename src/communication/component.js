@@ -24,6 +24,7 @@ module.exports = {
       fastify: fastify.instance(),
       rpc,
       messaging,
+      notification,
       listen
     }
 

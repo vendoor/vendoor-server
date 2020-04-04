@@ -8,6 +8,11 @@ const config = convict({
     env: 'NODE_ENV'
   },
   log: {
+    level: {
+      doc: 'The lowest level to be reported in the logs.',
+      format: String,
+      default: 'info'
+    },
     pretty: {
       doc: 'Whether to output pretty printed logs.',
       format: Boolean,
