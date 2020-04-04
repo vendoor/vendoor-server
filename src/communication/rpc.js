@@ -1,9 +1,35 @@
+const Ajv = require('ajv')
+const fastJson = require('fast-json-stringify')
+
+const ajv = Ajv({
+  allErrors: true
+})
+
 const log = require('../util/log')
 
-const routeMap = new Map()
+const internalRouteMap = new Map()
+const publicRouteMap = new Map()
+
+async function handleRpcInvocation (handler, data, client) {
+  log.debug('Validating schema on path "%s"', handler.path)
+  const isRequestValid = handler.requestValidator(data)
+
+  if (!isRequestValid) {
+    log.debug('Invalid request on path: %o', handler.requestValidator.errors)
+
+    return {
+      errors: handler.requestValidator.errors
+    }
+  }
+
+  const response = await handler.handler(...data, client)
+
+  log.debug('Stringifying result on path "%s"', handler.path)
+  return handler.responseStringifier(response)
+}
 
 async function rpcRouter (path, data, client) {
-  const handler = routeMap.get(path)
+  const handler = internalRouteMap.get(path)
 
   if (!handler) {
     log.error('No RPC handler found for path "%s"', path)
@@ -11,11 +37,53 @@ async function rpcRouter (path, data, client) {
     throw new Error('Handler not found for call.')
   }
 
-  const result = await handler.handler(...data, client)
+  log.debug('Handler found for RPC invocation with path "%s"', path)
 
-  log.debug('Successfully routed RPC invocation for path "%s"', path)
+  const result = await handleRpcInvocation(handler, data, client)
 
   return result
+}
+
+function deepCopy (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+function makePublicHandlerRegistration (handlerRegistration) {
+  return {
+    path: handlerRegistration.path,
+    schema: deepCopy(handlerRegistration.schema),
+    meta: deepCopy(handlerRegistration.meta)
+  }
+}
+
+function defaultRequestValidator () {
+  return true
+}
+
+function defaultResponseStringifier (obj) {
+  return JSON.stringify(obj)
+}
+
+function initializeInternalHandler (handlerRegistration) {
+  const internalRegistrationObject = deepCopy(handlerRegistration)
+  // Deep copy will not copy functions.
+  internalRegistrationObject.handler = handlerRegistration.handler
+
+  if (handlerRegistration.schema && handlerRegistration.schema.request) {
+    // The .errors property will be shared, but this will not cause problems for us.
+    // (see the ajv docs on usage)
+    internalRegistrationObject.requestValidator = ajv.compile(handlerRegistration.schema.request)
+  } else {
+    internalRegistrationObject.requestValidator = defaultRequestValidator
+  }
+
+  if (handlerRegistration.schema && handlerRegistration.schema.response) {
+    internalRegistrationObject.responseStringifier = fastJson(handlerRegistration.schema.response)
+  } else {
+    internalRegistrationObject.responseStringifier = defaultResponseStringifier
+  }
+
+  return internalRegistrationObject
 }
 
 module.exports = {
@@ -39,18 +107,19 @@ module.exports = {
    * @param {string[]} [handlerRegistration.meta.tags] Arbitrary string tags.
    */
   registerRpcHandler (handlerRegistration) {
-    if (routeMap.has(handlerRegistration.path)) {
+    if (internalRouteMap.has(handlerRegistration.path)) {
       throw new Error(`Path "${handlerRegistration.path}" is already registered by another handler.`)
     }
 
-    routeMap.set(handlerRegistration.path, handlerRegistration)
+    internalRouteMap.set(handlerRegistration.path, initializeInternalHandler(handlerRegistration))
+    publicRouteMap.set(handlerRegistration.path, makePublicHandlerRegistration(handlerRegistration))
 
     log.info('Registered RPC handler for path "%s"', handlerRegistration.path)
   },
   getRpcHandlers () {
     const result = {}
 
-    for (const handler of routeMap.values()) {
+    for (const handler of publicRouteMap.values()) {
       result[handler.path] = handler
     }
 
