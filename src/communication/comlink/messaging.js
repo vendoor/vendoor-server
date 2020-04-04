@@ -72,24 +72,20 @@ module.exports = {
     ws.close()
   },
 
-  instance () {
-    return {
-      registerMessageHandler,
-      sendMessageToClient (clientID, event, message) {
-        return _comlink.sendMessageToClient(CHANNEL_NAME, clientID, event, message)
-      },
-      getClientIDByToken (token) {
-        return _comlink.getClientIDByToken(CHANNEL_NAME, token)
-      },
-      getTokenByClientID (clientID) {
-        return _comlink.getTokenByClientID(CHANNEL_NAME, clientID)
-      },
-      isTokenActive (token) {
-        return _comlink.isTokenActive(CHANNEL_NAME, token)
-      },
-      isClientActive (clientID) {
-        return _comlink.isClientActive(CHANNEL_NAME, clientID)
-      }
-    }
+  registerMessageHandler,
+  sendMessageToClient (clientID, event, message) {
+    return _comlink.sendMessageToClient(CHANNEL_NAME, clientID, event, message)
+  },
+  getClientIDByToken (token) {
+    return _comlink.getClientIDByToken(CHANNEL_NAME, token)
+  },
+  getTokenByClientID (clientID) {
+    return _comlink.getTokenByClientID(CHANNEL_NAME, clientID)
+  },
+  isTokenActive (token) {
+    return _comlink.isTokenActive(CHANNEL_NAME, token)
+  },
+  isClientActive (clientID) {
+    return _comlink.isClientActive(CHANNEL_NAME, clientID)
   }
 }
