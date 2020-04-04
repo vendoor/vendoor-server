@@ -4,7 +4,7 @@ module.exports = {
   method: 'GET',
   url: '/documentation/rpc',
   async handler () {
-    const handlers = rpc.getRpcHandlers()
+    const handlers = Object.values(rpc.getRpcHandlers())
       .map(obj => {
         const result = Object.assign({}, obj)
 
