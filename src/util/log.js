@@ -5,6 +5,7 @@ const config = require('../config/config').get('log')
 const destination = pino.destination(1)
 
 const log = pino({
+  level: config.level,
   prettyPrint: config.pretty
 }, destination)
 
