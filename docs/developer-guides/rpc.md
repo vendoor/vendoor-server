@@ -43,6 +43,25 @@ const component = {
         communication.rpc.registerRpcHandler({
             path: 'any.path.you.want',
 
+            schema: {
+              request: {
+                $comment: "JSON schema for the arguments. See https://json-schema.org/understanding-json-schema/reference/array.html#tuple-validation"
+                type: "array",
+                items: [
+
+                ]
+              },
+              response: {
+                $comment: "JSON schema for the response. Arbitrary."
+              }
+            }
+
+            meta: {
+              title: "Documentation title of the handler",
+              description: "Markdown-formatted desciption.",
+              tags: ["an", "array", "of" "string tags"]
+            }
+
             // The last argument is always an object carrying info
             // regarding the authenticated client and user.
             async handler(args, you, want, to handle, client) {

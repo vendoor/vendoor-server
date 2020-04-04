@@ -24,7 +24,32 @@ Afterwards, the server is free to send notifications any time.
 
 ## Sending notifications
 
-Sending a notification is a piece of cake, watch:
+Prior to sending notifications, you must register events. This can be done, by creating a component:
+
+~~~~JavaScript
+const component = {
+    name: 'some-notification-component`
+    dependencies: ['communication'],
+
+    async setup({ communication }) {
+        communication.notification.registerEvent({
+            event: 'any.event.you.want',
+
+            schema: {
+              $comment: "JSON schema for the notification payload/message. Arbitrary."
+            }
+
+            meta: {
+              title: "Documentation title of the event",
+              description: "Markdown-formatted desciption.",
+              tags: ["an", "array", "of" "string tags"]
+            }
+        })
+    }
+}
+~~~~
+
+Afterwards, sending a notification is a piece of cake, watch:
 
 ~~~~JavaScript
 const notification = require('./communication/notification')
@@ -34,9 +59,9 @@ const userIdentifier = 'We assume that you somehow acquired a user identifier'
 // Check if the user has an active connection.
 if (notification.isUserOnline(userIdentifier)) {
     // If so, then hit them with our message!
-    // Parameters:
-    //   userIdentifier - event - message
-    // The choice of event is arbitrary, just tell the frontend guys.
-    notification.notifyUser(userIdentifier, 'some-event', { hello: 'World' })
+    notification.notifyUser(userIdentifier, {
+      event: 'some.registered.event',
+      message: { hello: 'World' }
+    })
 }
 ~~~~
