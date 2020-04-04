@@ -50,13 +50,13 @@ module.exports = {
     await messaging.teardown()
   },
 
-  rpc() {
+  rpc () {
     return rpc
   },
-  notification() {
+  notification () {
     return notification
   },
-  messaging() {
+  messaging () {
     return messaging
   }
 }

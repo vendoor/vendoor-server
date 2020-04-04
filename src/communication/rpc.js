@@ -1,11 +1,13 @@
+const log = require('../util/log')
+
 const routeMap = new Map()
 
-async function rpcRouter(path, data, client) {
+async function rpcRouter (path, data, client) {
   const handler = routeMap.get(path)
 
-  if (!handler) {  
+  if (!handler) {
     log.error('No RPC handler found for path "%s"', path)
-    
+
     throw new Error('Handler not found for call.')
   }
 
@@ -17,7 +19,7 @@ async function rpcRouter(path, data, client) {
 }
 
 module.exports = {
-  setup(impl) {
+  setup (impl) {
     impl.registerRpcRouter(rpcRouter)
   },
   /**
@@ -45,7 +47,7 @@ module.exports = {
 
     log.info('Registered RPC handler for path "%s"', handlerRegistration.path)
   },
-  getRpcHandlers() {
+  getRpcHandlers () {
     const result = {}
 
     for (const handler of routeMap.values()) {

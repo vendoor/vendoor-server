@@ -3,7 +3,7 @@ const session = require('../session/session')
 let _impl
 
 module.exports = {
-  setup(impl) {
+  setup (impl) {
     _impl = impl
   },
   isUserOnline (userIdentifier) {

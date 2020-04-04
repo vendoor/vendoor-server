@@ -16,7 +16,7 @@ module.exports = {
 
     const messaging = require('./messaging')
     messaging.setup(comlink.messaging())
-    
+
     const notification = require('./notification')
     notification.setup(comlink.notification())
 
