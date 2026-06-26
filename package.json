@@ -43,7 +43,7 @@
     "@dwmt/comlink-repl": "0.0.4",
     "got": "10.7.0",
     "husky": "4.2.3",
-    "standard": "14.3.3"
+    "standard": "17.1.2"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
